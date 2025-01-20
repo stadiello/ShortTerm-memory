@@ -34,7 +34,6 @@ jobs:
     
     - name: Build the package
       run: |
-        include requirements.txt
         python setup.py sdist bdist_wheel
       
     - name: Publish to PyPI
