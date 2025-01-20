@@ -14,7 +14,11 @@ setup(
     url="https://github.com/sebDtSci/ShortTerm-memory",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    install_requires=requirements,
+    #install_requires=requirements,
+    install_requires=[
+        "numpy>=1.21.0",
+        "transformers>=4.44.0,<5.0"
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
