@@ -33,7 +33,9 @@ jobs:
       run: sed -i "s/{{VERSION_PLACEHOLDER}}/${{ env.TAG_NAME }}/g" setup.py
     
     - name: Build the package
-      run: python -m build
+      run: |
+        rm -rf dist build *.egg-info
+        python -m build
       
     - name: Publish to PyPI
       env:
