@@ -11,7 +11,7 @@ setup(
     description="Une approche pour la gestion de la mémoire à court terme dans les chatbots.",
     long_description=open('README.md').read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/sebDtSci/ShortTerm-memory",
+    url="https://github.com/stadiello/ShortTerm-memory",
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=requirements,
