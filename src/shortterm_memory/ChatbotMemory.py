@@ -1,16 +1,6 @@
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
-import logging
-
-# Configuration du logging
-logging.basicConfig(
-    filename="memory.log",
-    filemode="w",
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    datefmt="%Y-%m-%d %H:%M:%S",
-    encoding="utf-8"
-    )
+from src.logs.logger import logging
 
 # Détection automatique du device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
