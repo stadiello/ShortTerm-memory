@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.3] - 2025-04-03
+## [1.1.3] - 2025-04-04
 
 ### Added
 - ✅ Unit test suite using `pytest` with fixtures and mocks.
@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [1.1.2] - 2024-10-01
+## [1.1.2] - 2025-02-04
 
 ### Added
 - 🚀 GPU support with automatic PyTorch device detection.
