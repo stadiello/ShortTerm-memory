@@ -1,6 +1,6 @@
 name: Test non regression
 
-on: [puch]
+on: [push]
 
 jobs:
     build:
