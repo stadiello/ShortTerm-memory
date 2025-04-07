@@ -9,3 +9,5 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
     encoding="utf-8"
     )
+
+logger_mem = logging.getLogger("memory_logger")

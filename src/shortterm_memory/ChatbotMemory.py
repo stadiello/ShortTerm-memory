@@ -1,6 +1,6 @@
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
-from logs.logger import logging
+from logs.logger import logging, logger_mem
 from datetime import date
 import uuid
 from mem_db.vecto import get_or_create_collection
@@ -52,7 +52,7 @@ class ChatbotMemory:
         Returns:
             None        """
         self.conversation_history.append({'user': user_input, 'bot': bot_response})
-        date.today()
+        # date.today()
 
         self.persistent_storage.add(
         documents=[f"user: {user_input} bot: {bot_response}"],
@@ -62,7 +62,7 @@ class ChatbotMemory:
 
         if self.memory_counter() > MAX_TOKENS_IN_MEMORY:
             self.conversation_history = self.compressed_memory()
-            logging.info("Mémoire compressée.")
+            logger_mem.info("Mémoire compressée.")
 
         if len(self.conversation_history) > MAX_MEMORY_SIZE:
             self.conversation_history.pop(0)
