@@ -1,20 +1,47 @@
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
 from logs.logger import logging
+from datetime import date
+import uuid
+from mem_db.vecto import get_or_create_collection
+
 
 # Détection automatique du device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Paramètres globaux
 MAX_MEMORY_SIZE = 2000  # Limite du nombre de messages
-MAX_TOKENS_PER_MESSAGE = 1000  # Limite pour compresser la mémoire
+MAX_TOKENS_IN_MEMORY = 1000  # Limite pour compresser la mémoire
 BATCH_SIZE = 5  # Taille du batch pour la compression
+
+class BartSingleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            logging.info("Instanciation du modèle BART...")
+            cls._instance = super(BartSingleton, cls).__new__(cls)
+            cls._instance.tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
+            cls._instance.model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn').to(device)
+        return cls._instance
+    
+    @classmethod
+    def reset(cls):
+        """
+        Resets the BART singleton, allowing it to be reinitialized.
+        This should only be used for testing purposes.
+        """
+        logging.warning("Reset du singleton BART.")
+        cls._instance = None
 
 class ChatbotMemory:
     def __init__(self, conv:list=None):
         self.conversation_history = conv or []
-        self.tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
-        self.model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn').to(device)
+        bart = BartSingleton()
+        self.tokenizer = bart.tokenizer
+        self.model = bart.model
+
+        self.persistent_storage = get_or_create_collection("conv_memory")
 
     def update_memory(self, user_input:str, bot_response:str)->None:
         """
@@ -25,8 +52,15 @@ class ChatbotMemory:
         Returns:
             None        """
         self.conversation_history.append({'user': user_input, 'bot': bot_response})
+        date.today()
 
-        if self.memory_counter() > MAX_TOKENS_PER_MESSAGE:
+        self.persistent_storage.add(
+        documents=[f"user: {user_input} bot: {bot_response}"],
+        ids=[str(uuid.uuid4())],
+        metadatas=[{"type": "chat_entry"}]
+        )
+
+        if self.memory_counter() > MAX_TOKENS_IN_MEMORY:
             self.conversation_history = self.compressed_memory()
             logging.info("Mémoire compressée.")
 
