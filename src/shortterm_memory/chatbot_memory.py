@@ -1,8 +1,9 @@
+"""Module providing a Memory Class for a Chatbot."""
+
+import uuid
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
 from logs.logger import logging, logger_mem
-from datetime import date
-import uuid
 from mem_db.vecto import get_or_create_collection
 
 
@@ -23,7 +24,7 @@ class BartSingleton:
             cls._instance = super(BartSingleton, cls).__new__(cls)
             cls._instance.tokenizer = BartTokenizer.from_pretrained('facebook/bart-large-cnn')
             cls._instance.model = BartForConditionalGeneration.from_pretrained('facebook/bart-large-cnn').to(device)
-        return cls._instance
+        return cls._instance 
     
     @classmethod
     def reset(cls):

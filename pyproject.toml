@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shortterm-memory"
+dynamic = ["version", "dependencies"]
+description = "Une approche pour la gestion de la mémoire à court terme dans les chatbots."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name = "Tadiello Sébastien", email = "sebastientadiello@gmail.com" }
+]
+urls = { Homepage = "https://github.com/stadiello/ShortTerm-memory" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[tool.setuptools]
+packages = ["shortterm_memory"]
+package-dir = { "" = "src" }
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"

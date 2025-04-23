@@ -27,16 +27,11 @@ jobs:
       run: |
         python -m pip show setuptools wheel || python -m pip install setuptools wheel
         
-    - name: Extract package version
-      run: echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-
-    - name: Update version in setup.py
-      run: sed -i "s/{{VERSION_PLACEHOLDER}}/${{ env.TAG_NAME }}/g" setup.py
     
     - name: Build the package
       run: |
         python setup.py sdist bdist_wheel
-    
+
     - name: Test with pytest
       run: |
         pytest -v
